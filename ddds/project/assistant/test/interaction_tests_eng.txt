@@ -1,0 +1,56 @@
+--- main menu
+S> What would you like to do?
+
+--- contact (incremental)
+U> How can I contact daycare ebeneser
+S> Email or phone?
+U> what is the email
+S> The result for your query was empty
+
+--- contact (one-shot)
+U> what is the phone number for daycare ebeneser
+S> It is *
+
+--- ask library (incremental)
+U> can you tell me a library
+S> Which city are you in?
+U> Helsinki
+S> Do you want the address?
+U> no
+S> There is a library * in helsinki.
+
+--- ask library (over-answering)
+U> can you tell me a library in helsinki
+S> Do you want the address?
+U> no
+S> There is a library * in helsinki.
+
+--- ask library (accessible)
+U> can you tell me a library accessible by wheelchair
+S> Which city are you in?
+U> Helsinki
+S> Do you want the address?
+U> yes
+S> There is a library * in helsinki.
+
+--- ask accessibility
+U> is daycare ebeneser accessible by wheelchair
+S> No it is not.
+
+--- correction
+U> can you tell me a doctor
+S> Which city are you in?
+U> i mean dentist
+S> Which city are you in?
+U> Espoo
+S> Do you want the address?
+U> no
+S> There is a dentist * in espoo.
+
+--- post office (implicit)
+U> i want to send a post card
+S> Which city are you in?
+U> Helsinki
+S> Do you want the address?
+U> no
+S> There is a post office * in helsinki.

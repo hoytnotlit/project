@@ -1,0 +1,560 @@
+language: "en"
+
+pipeline:
+  - name: WhitespaceTokenizer
+    case_sensitive: False
+  - name: LanguageModelFeaturizer
+    model_name: "bert"
+    model_weights: "bert-base-uncased"
+    cache_dir: lfs
+  - name: RegexFeaturizer
+  - name: LexicalSyntacticFeaturizer
+  - name: CountVectorsFeaturizer
+  - name: CountVectorsFeaturizer
+    analyzer: "char_wb"
+    min_ngram: 1
+    max_ngram: 4
+  - name: DIETClassifier
+    epochs: 100
+#  - name: DucklingEntityExtractor
+#    url: "http://duckling:8000"
+#    dimensions: []  # Add dimensions if the DDD has built-in the sorts integer or datetime e.g. ["number", "time"]
+  - name: RegexEntityExtractor
+    # text will be processed with case insensitive as default
+    case_sensitive: False
+    # use lookup tables to extract entities
+    use_lookup_tables: True
+    # use regexes to extract entities
+    use_regexes: True
+    # use match word boundaries for lookup table
+    # needs to be "False" for languages like Chinese
+    "use_word_boundaries": True
+  - name: EntitySynonymMapper
+version: "2.0"
+
+nlu:
+- intent: assistant:question::unit_contact
+  examples: |
+    - how can I contact [daycare ebeneser](assistant.sort.unit)
+    - how can I contact [diak helsinki library](assistant.sort.unit)
+    - how can I contact [tapanila library](assistant.sort.unit)
+    - i need a [call](assistant.sort.contact)
+    - i need a [email](assistant.sort.contact)
+    - i need a [message](assistant.sort.contact)
+    - i need a [phone number](assistant.sort.contact)
+    - i need a [phone](assistant.sort.contact)
+    - i need a [tell me the email](assistant.sort.contact)
+    - i need a [tell me the phone number](assistant.sort.contact)
+    - i need a [what is the email](assistant.sort.contact)
+    - i need a [what is the phone number](assistant.sort.contact)
+    - i need to [call](assistant.sort.contact) [diak helsinki library](assistant.sort.unit)
+    - i need to [email](assistant.sort.contact) [tapanila library](assistant.sort.unit)
+    - i need to [message](assistant.sort.contact) [tapanila library](assistant.sort.unit)
+    - i need to [phone number](assistant.sort.contact) [diak helsinki library](assistant.sort.unit)
+    - i need to [phone](assistant.sort.contact) [tapanila library](assistant.sort.unit)
+    - i need to [tell me the email](assistant.sort.contact) [tapanila library](assistant.sort.unit)
+    - i need to [tell me the phone number](assistant.sort.contact) [daycare ebeneser](assistant.sort.unit)
+    - i need to [what is the email](assistant.sort.contact) [tapanila library](assistant.sort.unit)
+    - i need to [what is the phone number](assistant.sort.contact) [tapanila library](assistant.sort.unit)
+    - i want to [call](assistant.sort.contact) [daycare ebeneser](assistant.sort.unit)
+    - i want to [email](assistant.sort.contact) [tapanila library](assistant.sort.unit)
+    - i want to [message](assistant.sort.contact) [diak helsinki library](assistant.sort.unit)
+    - i want to [phone number](assistant.sort.contact) [tapanila library](assistant.sort.unit)
+    - i want to [phone](assistant.sort.contact) [tapanila library](assistant.sort.unit)
+    - i want to [tell me the email](assistant.sort.contact) [diak helsinki library](assistant.sort.unit)
+    - i want to [tell me the phone number](assistant.sort.contact) [diak helsinki library](assistant.sort.unit)
+    - i want to [what is the email](assistant.sort.contact) [tapanila library](assistant.sort.unit)
+    - i want to [what is the phone number](assistant.sort.contact) [tapanila library](assistant.sort.unit)
+    - what is the [call](assistant.sort.contact) for [daycare ebeneser](assistant.sort.unit)
+    - what is the [email](assistant.sort.contact) for [tapanila library](assistant.sort.unit)
+    - what is the [message](assistant.sort.contact) for [daycare ebeneser](assistant.sort.unit)
+    - what is the [phone number](assistant.sort.contact) for [tapanila library](assistant.sort.unit)
+    - what is the [phone](assistant.sort.contact) for [diak helsinki library](assistant.sort.unit)
+    - what is the [tell me the email](assistant.sort.contact) for [tapanila library](assistant.sort.unit)
+    - what is the [tell me the phone number](assistant.sort.contact) for [diak helsinki library](assistant.sort.unit)
+    - what is the [what is the email](assistant.sort.contact) for [tapanila library](assistant.sort.unit)
+    - what is the [what is the phone number](assistant.sort.contact) for [tapanila library](assistant.sort.unit)
+
+- intent: assistant:question::service_unit
+  examples: |
+    - i need a service
+    - i need a service in [espoo](assistant.sort.city)
+    - i need a service in [helsinki](assistant.sort.city)
+    - i need a service in [kauniainen](assistant.sort.city)
+    - i need a service in [vantaa](assistant.sort.city)
+    - can you tell me a [day care](assistant.sort.service)
+    - can you tell me a [daycare](assistant.sort.service)
+    - can you tell me a [dentist](assistant.sort.service)
+    - can you tell me a [library](assistant.sort.service)
+    - can you tell me a [mail a package](assistant.sort.service)
+    - can you tell me a [post office](assistant.sort.service)
+    - can you tell me a [postal](assistant.sort.service)
+    - can you tell me a [recycling center](assistant.sort.service)
+    - can you tell me a [recycling](assistant.sort.service)
+    - can you tell me a [send a post card](assistant.sort.service)
+    - i mean [daycare](assistant.sort.service)
+    - i mean [dentist](assistant.sort.service)
+    - i mean [doctor](assistant.sort.service)
+    - i mean [library](assistant.sort.service)
+    - i mean [mail a package](assistant.sort.service)
+    - i mean [post office](assistant.sort.service)
+    - i mean [postal](assistant.sort.service)
+    - i mean [recycling center](assistant.sort.service)
+    - i mean [recycling](assistant.sort.service)
+    - i mean [send a post card](assistant.sort.service)
+    - i need to go to the [day care](assistant.sort.service)
+    - i need to go to the [daycare](assistant.sort.service)
+    - i need to go to the [dentist](assistant.sort.service)
+    - i need to go to the [library](assistant.sort.service)
+    - i need to go to the [mail a package](assistant.sort.service)
+    - i need to go to the [post office](assistant.sort.service)
+    - i need to go to the [postal](assistant.sort.service)
+    - i need to go to the [recycling center](assistant.sort.service)
+    - i need to go to the [recycling](assistant.sort.service)
+    - i need to go to the [send a post card](assistant.sort.service)
+    - i want to [day care](assistant.sort.service)
+    - i want to [daycare](assistant.sort.service)
+    - i want to [dentist](assistant.sort.service)
+    - i want to [doctor](assistant.sort.service)
+    - i want to [mail a package](assistant.sort.service)
+    - i want to [post office](assistant.sort.service)
+    - i want to [postal](assistant.sort.service)
+    - i want to [recycling center](assistant.sort.service)
+    - i want to [recycling](assistant.sort.service)
+    - i want to [send a post card](assistant.sort.service)
+    - i want to [day care](assistant.sort.service) how do I do it?
+    - i want to [daycare](assistant.sort.service) how do I do it?
+    - i want to [dentist](assistant.sort.service) how do I do it?
+    - i want to [doctor](assistant.sort.service) how do I do it?
+    - i want to [library](assistant.sort.service) how do I do it?
+    - i want to [mail a package](assistant.sort.service) how do I do it?
+    - i want to [post office](assistant.sort.service) how do I do it?
+    - i want to [recycling center](assistant.sort.service) how do I do it?
+    - i want to [recycling](assistant.sort.service) how do I do it?
+    - i want to [send a post card](assistant.sort.service) how do I do it?
+    - can you tell me a [daycare](assistant.sort.service) [accessible by wheelchair](assistant.sort.accessible)
+    - can you tell me a [dentist](assistant.sort.service) [accessible by wheelchair](assistant.sort.accessible)
+    - can you tell me a [doctor](assistant.sort.service) [accessible by wheelchair](assistant.sort.accessible)
+    - can you tell me a [library](assistant.sort.service) [accessible by wheelchair](assistant.sort.accessible)
+    - can you tell me a [mail a package](assistant.sort.service) [accessible by wheelchair](assistant.sort.accessible)
+    - can you tell me a [post office](assistant.sort.service) [accessible by wheelchair](assistant.sort.accessible)
+    - can you tell me a [postal](assistant.sort.service) [accessible by wheelchair](assistant.sort.accessible)
+    - can you tell me a [recycling center](assistant.sort.service) [accessible by wheelchair](assistant.sort.accessible)
+    - can you tell me a [recycling](assistant.sort.service) [accessible by wheelchair](assistant.sort.accessible)
+    - can you tell me a [send a post card](assistant.sort.service) [accessible by wheelchair](assistant.sort.accessible)
+    - can you tell me a [daycare](assistant.sort.service) in [espoo](assistant.sort.city)
+    - can you tell me a [dentist](assistant.sort.service) in [helsinki](assistant.sort.city)
+    - can you tell me a [doctor](assistant.sort.service) in [espoo](assistant.sort.city)
+    - can you tell me a [library](assistant.sort.service) in [kauniainen](assistant.sort.city)
+    - can you tell me a [mail a package](assistant.sort.service) in [helsinki](assistant.sort.city)
+    - can you tell me a [post office](assistant.sort.service) in [kauniainen](assistant.sort.city)
+    - can you tell me a [postal](assistant.sort.service) in [kauniainen](assistant.sort.city)
+    - can you tell me a [recycling center](assistant.sort.service) in [kauniainen](assistant.sort.city)
+    - can you tell me a [recycling](assistant.sort.service) in [helsinki](assistant.sort.city)
+    - can you tell me a [send a post card](assistant.sort.service) in [kauniainen](assistant.sort.city)
+
+- intent: assistant:question::unit_accessibility
+  examples: |
+    - is [daycare ebeneser](assistant.sort.unit) accessible by wheelchair
+    - is [diak helsinki library](assistant.sort.unit) accessible by wheelchair
+    - is [tapanila library](assistant.sort.unit) accessible by wheelchair
+    - is it accessible by wheelchair
+    - can i go to [daycare ebeneser](assistant.sort.unit) with a wheelchair
+    - can i go to [diak helsinki library](assistant.sort.unit) with a wheelchair
+    - can i go to [tapanila library](assistant.sort.unit) with a wheelchair
+
+- intent: assistant:answer
+  examples: |
+    - [accessible by wheelchair](assistant.sort.accessible)
+    - [helsinki](assistant.sort.city)
+    - [vantaa](assistant.sort.city)
+    - [espoo](assistant.sort.city)
+    - [kauniainen](assistant.sort.city)
+    - [email](assistant.sort.contact)
+    - [message](assistant.sort.contact)
+    - [tell me the email](assistant.sort.contact)
+    - [what is the email](assistant.sort.contact)
+    - [phone](assistant.sort.contact)
+    - [call](assistant.sort.contact)
+    - [phone number](assistant.sort.contact)
+    - [tell me the phone number](assistant.sort.contact)
+    - [what is the phone number](assistant.sort.contact)
+    - [library](assistant.sort.service)
+    - [recycling center](assistant.sort.service)
+    - [recycling](assistant.sort.service)
+    - [daycare](assistant.sort.service)
+    - [day care](assistant.sort.service)
+    - [doctor](assistant.sort.service)
+    - [dentist](assistant.sort.service)
+    - [post office](assistant.sort.service)
+    - [send a post card](assistant.sort.service)
+    - [mail a package](assistant.sort.service)
+    - [postal](assistant.sort.service)
+    - [daycare ebeneser](assistant.sort.unit)
+    - [diak helsinki library](assistant.sort.unit)
+    - [tapanila library](assistant.sort.unit)
+    - [single](assistant.sort.string)
+    - [double word](assistant.sort.string)
+    - [three in one](assistant.sort.string)
+    - [hey make it four](assistant.sort.string)
+    - [the more the merrier five](assistant.sort.string)
+    - [calm down and count to six](assistant.sort.string)
+    - [bring them through to the jolly seven](assistant.sort.string)
+    - [noone counts toes like an eight toed guy](assistant.sort.string)
+    - [it matters to make sense for nine of us](assistant.sort.string)
+    - [would you bring ten or none to a desert island](assistant.sort.string)
+    - yes [accessible by wheelchair](assistant.sort.accessible)
+    - yes [call](assistant.sort.contact)
+    - yes [dentist](assistant.sort.service)
+    - yes [three in one](assistant.sort.string)
+    - no [helsinki](assistant.sort.city)
+    - no [phone number](assistant.sort.contact)
+    - no [post office](assistant.sort.service)
+    - no [hey make it four](assistant.sort.string)
+
+- intent: assistant:answer_negation
+  examples: |
+    - not [accessible by wheelchair](assistant.sort.accessible)
+    - not [helsinki](assistant.sort.city)
+    - not [vantaa](assistant.sort.city)
+    - not [espoo](assistant.sort.city)
+    - not [kauniainen](assistant.sort.city)
+    - not [email](assistant.sort.contact)
+    - not [message](assistant.sort.contact)
+    - not [tell me the email](assistant.sort.contact)
+    - not [what is the email](assistant.sort.contact)
+    - not [phone](assistant.sort.contact)
+    - not [call](assistant.sort.contact)
+    - not [phone number](assistant.sort.contact)
+    - not [tell me the phone number](assistant.sort.contact)
+    - not [what is the phone number](assistant.sort.contact)
+    - not [library](assistant.sort.service)
+    - not [recycling center](assistant.sort.service)
+    - not [recycling](assistant.sort.service)
+    - not [daycare](assistant.sort.service)
+    - not [day care](assistant.sort.service)
+    - not [doctor](assistant.sort.service)
+    - not [dentist](assistant.sort.service)
+    - not [post office](assistant.sort.service)
+    - not [send a post card](assistant.sort.service)
+    - not [mail a package](assistant.sort.service)
+    - not [postal](assistant.sort.service)
+    - not [daycare ebeneser](assistant.sort.unit)
+    - not [diak helsinki library](assistant.sort.unit)
+    - not [tapanila library](assistant.sort.unit)
+
+- intent: NEGATIVE
+  examples: |
+    - aboard
+    - about
+    - above
+    - across
+    - after
+    - against
+    - along
+    - among
+    - as
+    - at
+    - on
+    - atop
+    - before
+    - behind
+    - below
+    - beneath
+    - beside
+    - between
+    - beyond
+    - but
+    - by
+    - come
+    - down
+    - during
+    - except
+    - for
+    - from
+    - in
+    - inside
+    - into
+    - less
+    - like
+    - near
+    - of
+    - off
+    - on
+    - onto
+    - opposite
+    - out
+    - outside
+    - over
+    - past
+    - save
+    - short
+    - since
+    - than
+    - then
+    - through
+    - throughout
+    - to
+    - toward
+    - under
+    - underneath
+    - unlike
+    - until
+    - up
+    - upon
+    - with
+    - within
+    - without
+    - worth
+    - is
+    - it
+    - the
+    - a
+    - am
+    - are
+    - them
+    - this
+    - that
+    - I
+    - you
+    - he
+    - she
+    - they
+    - them
+    - his
+    - her
+    - my
+    - mine
+    - their
+    - your
+    - us
+    - our
+    - how
+    - how's
+    - how is
+    - how's the
+    - how is the
+    - when
+    - when's
+    - when is
+    - when is the
+    - when's the
+    - what
+    - what is
+    - what's
+    - what's the
+    - what is the
+    - why
+    - why is
+    - why's
+    - why is the
+    - why's the
+    - do
+    - make
+    - tell
+    - start
+    - stop
+    - enable
+    - disable
+    - raise
+    - lower
+    - decrease
+    - increase
+    - act
+    - determine
+    - say
+    - ask
+    - go
+    - shoot
+    - wait
+    - hang on
+    - ok
+    - show
+    - help
+
+- intent: answer:yes
+  examples: |
+    - yes
+    - yeah
+    - yep
+    - sure
+    - ok
+    - of course
+    - very well
+    - fine
+    - right
+    - excellent
+    - okay
+    - perfect
+    - I think so
+
+- intent: answer:no
+  examples: |
+    - no
+    - nope
+    - no thanks
+    - no thank you
+    - negative
+    - don't want to
+    - don't
+    - do not
+    - please don't
+
+- intent: request:top
+  examples: |
+    - forget it
+    - never mind
+    - get me out of here
+    - start over
+    - beginning
+    - never mind that
+    - restart
+
+- intent: request:up
+  examples: |
+    - go back
+    - back
+    - previous
+    - back to the previous
+    - go to the previous
+    - go back to the previous one
+
+- intent: request:how
+  examples: |
+    - how do I do that
+    - how
+    - can you tell me how to do that
+    - I don't know how should I do that
+    - how can I do that
+
+- intent: report:done
+  examples: |
+    - I'm done
+    - done
+    - ready
+    - it's ready
+    - I'm ready
+    - completed
+    - check
+    - I have finished
+    - finished
+    - done and done
+    - it's done now
+    - okay next
+    - next
+    - next instruction
+
+- intent: icm:per*neg
+  examples: |
+    - repeat
+    - repeat it
+    - repeat that
+    - pardon
+    - sorry
+    - can you repeat that
+    - excuse me
+    - what was that
+    - what did you say
+    - come again
+
+- intent: icm:acc*neg:issue
+  examples: |
+    - I don't know
+    - I don't know that
+    - it doesn't matter
+
+- intent: thanks
+  examples: |
+    - thank you
+    - thank you very much
+    - thanks
+    - big thanks
+    - thanks a lot
+
+- intent: greet
+  examples: |
+    - hello
+    - hi
+    - good day
+    - what's up
+    - good evening
+    - good morning
+    - hey
+
+- synonym: assistant:wheelchair_accessible
+  examples: |
+    - accessible by wheelchair
+
+- synonym: assistant:city_helsinki
+  examples: |
+    - helsinki
+
+- synonym: assistant:city_vantaa
+  examples: |
+    - vantaa
+
+- synonym: assistant:city_espoo
+  examples: |
+    - espoo
+
+- synonym: assistant:city_kauniainen
+  examples: |
+    - kauniainen
+
+- synonym: assistant:email
+  examples: |
+    - email
+    - message
+    - tell me the email
+    - what is the email
+
+- synonym: assistant:phone
+  examples: |
+    - phone
+    - call
+    - phone number
+    - tell me the phone number
+    - what is the phone number
+
+- synonym: assistant:library
+  examples: |
+    - library
+
+- synonym: assistant:recycling
+  examples: |
+    - recycling center
+    - recycling
+
+- synonym: assistant:daycare
+  examples: |
+    - daycare
+    - day care
+
+- synonym: assistant:doctor
+  examples: |
+    - doctor
+
+- synonym: assistant:dentist
+  examples: |
+    - dentist
+
+- synonym: assistant:post
+  examples: |
+    - post office
+    - send a post card
+    - mail a package
+    - postal
+
+- synonym: assistant:unit_daycare_ebeneser
+  examples: |
+    - daycare ebeneser
+
+- synonym: assistant:unit_library_diak
+  examples: |
+    - diak helsinki library
+
+- synonym: assistant:unit_library_tapanila
+  examples: |
+    - tapanila library
+
+

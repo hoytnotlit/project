@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ontology name="AssistantOntology">
+    <sort name="unit" dynamic="true"/>
+    <sort name="service" dynamic="true"/>
+    <sort name="contact" dynamic="true"/>
+    <sort name="city" dynamic="true"/>
+    <sort name="accessible" dynamic="true"/>
+
+    <predicate name="unit_to_search" sort="unit"/>
+    <predicate name="contact_type" sort="contact"/>
+    <predicate name="unit_contact" sort="string"/>
+    <predicate name="service_to_search" sort="service"/>
+    <predicate name="city_to_search" sort="city"/>
+    <predicate name="accessibility_to_search" sort="accessible"/>
+    <predicate name="service_unit" sort="unit"/>
+    <predicate name="unit_accessibility" sort="string"/>
+    <predicate name="want_address" sort="string"/>
+    <predicate name="unit_address" sort="string"/>
+
+    <individual name="email" sort="contact"/>
+    <individual name="phone" sort="contact"/>
+    
+    <individual name="library" sort="service"/>
+    <individual name="recycling" sort="service"/>
+    <individual name="daycare" sort="service"/>
+    <individual name="doctor" sort="service"/>
+    <individual name="dentist" sort="service"/>
+    <individual name="post" sort="service"/>
+
+    <individual name="city_helsinki" sort="city"/>
+    <individual name="city_vantaa" sort="city"/>
+    <individual name="city_espoo" sort="city"/>
+    <individual name="city_kauniainen" sort="city"/>
+
+    <individual name="unit_daycare_ebeneser" sort="unit"/>
+    <individual name="unit_library_diak" sort="unit"/>
+    <individual name="unit_library_tapanila" sort="unit"/>
+
+    <individual name="wheelchair_accessible" sort="accessible"/>
+
+    <individual name="yes" sort="string"/>
+    <individual name="no" sort="string"/>
+
+</ontology>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grammar>
+
+  <!--user utterances-->
+  <question speaker="user" predicate="unit_contact" type="wh_question">
+    <one-of>
+      <item>how can I contact <slot predicate="unit_to_search"/></item>
+      <item>i need a <slot predicate="contact_type"/></item>
+      <item>i need to <slot predicate="contact_type"/> <slot predicate="unit_to_search"/> </item>
+      <item>i want to <slot predicate="contact_type"/> <slot predicate="unit_to_search"/> </item>
+      <item>what is the <slot predicate="contact_type"/> for <slot predicate="unit_to_search"/></item>
+    </one-of>
+  </question>
+  <question speaker="user" predicate="service_unit" type="wh_question">
+    <one-of>
+      <item>i need a service</item>
+      <item>i need a service in <slot predicate="city_to_search"/> </item>
+      <item>can you tell me a <slot predicate="service_to_search"/></item>
+      <item>i mean <slot predicate="service_to_search"/></item>
+      <item>i need to go to the <slot predicate="service_to_search"/></item>
+      <item>i want to <slot predicate="service_to_search"/></item>
+      <item>i want to <slot predicate="service_to_search"/> how do I do it? </item>
+      <item>can you tell me a <slot predicate="service_to_search"/> <slot predicate="accessibility_to_search"/> </item>
+      <item>can you tell me a <slot predicate="service_to_search"/> in <slot predicate="city_to_search"/> </item>
+    </one-of>
+  </question>
+  <question speaker="user" predicate="unit_accessibility" type="wh_question">
+    <one-of>
+      <item>is <slot predicate="unit_to_search"/> accessible by wheelchair</item>
+      <item>is it accessible by wheelchair</item>
+      <item>can i go to <slot predicate="unit_to_search"/> with a wheelchair</item>
+    </one-of>
+  </question>
+
+  <!--system utterances-->
+  <question speaker="system" predicate="contact_type" type="wh_question">
+    email or phone
+  </question>
+  <question speaker="system" predicate="unit_to_search" type="wh_question">
+    which unit
+  </question>
+  <question speaker="system" predicate="service_to_search" type="wh_question">
+    which service
+  </question>
+  <question speaker="system" predicate="city_to_search" type="wh_question">
+    which city are you in
+  </question>
+  <answer speaker="system" predicate="unit_contact">
+    It is <slot predicate="unit_contact"/>
+  </answer>
+  <answer speaker="system" predicate="service_unit">
+    There is a <slot predicate="service_to_search" type="individual"/> <slot predicate="service_unit" type="individual"/> in <slot predicate="city_to_search" type="individual"/>
+  </answer>
+  <question speaker="system" predicate="want_address" type="wh_question">
+    do you want the address
+  </question>
+  <report action="ReportEmptyResult" status="ended">the result for your query was empty</report>
+
+  <!--units-->
+  <individual name="unit_daycare_ebeneser">daycare ebeneser</individual>
+  <individual name="unit_library_diak">diak helsinki library</individual>
+  <individual name="unit_library_tapanila">tapanila library</individual>
+  <!--services-->
+  <individual name="library">library</individual>
+  <individual name="doctor">doctor</individual>
+  <individual name="dentist">dentist</individual>
+  <individual name="post">
+    <one-of>
+      <item>post office</item>
+      <item>send a post card</item>
+      <item>mail a package</item>
+      <item>postal</item>
+    </one-of>
+  </individual>
+  <individual name="recycling">
+    <one-of>
+      <item>recycling center</item>
+      <item>recycling</item>
+    </one-of>
+  </individual>
+  <individual name="daycare">
+    <one-of>
+      <item>daycare</item>
+      <item>day care</item>
+    </one-of>
+  </individual>
+  <!--cities-->
+  <individual name="city_helsinki">helsinki</individual>
+  <individual name="city_vantaa">vantaa</individual>
+  <individual name="city_espoo">espoo</individual>
+  <individual name="city_kauniainen">kauniainen</individual>
+  <!--contact types-->
+  <individual name="email">
+    <one-of>
+      <item>email</item>
+      <item>message</item>
+      <item>tell me the email</item>
+      <item>what is the email</item>
+    </one-of>
+  </individual>
+  <individual name="phone">
+    <one-of>
+      <item>phone</item>
+      <item>call</item>
+      <item>phone number</item>
+      <item>tell me the phone number</item>
+      <item>what is the phone number</item>
+    </one-of>
+  </individual>
+  <!--accessibility types-->
+  <individual name="wheelchair_accessible">
+    <one-of>
+      <item>accessible by wheelchair</item>
+    </one-of>
+  </individual>
+
+  <individual name="yes">yes</individual>
+  <individual name="no">no</individual>
+
+</grammar>

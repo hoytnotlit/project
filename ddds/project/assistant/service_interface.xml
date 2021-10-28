@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<service_interface>
+    <query name="unit_contact">
+        <parameters>
+            <parameter predicate="unit_to_search" format="value"/>
+            <parameter predicate="contact_type" format="value"/>
+        </parameters>
+        <target>
+            <http endpoint="http://http-service/unit_contact"/>
+        </target>
+    </query>
+
+    <query name="service_unit">
+        <parameters>
+            <parameter predicate="service_to_search" format="value"/>
+            <parameter predicate="city_to_search" format="value"/>
+            <parameter predicate="accessibility_to_search" format="value" optional="true"/>
+        </parameters>
+        <target>
+            <http endpoint="http://http-service/find_service"/>
+        </target>
+    </query>
+
+    <query name="unit_accessibility">
+        <parameters>
+            <parameter predicate="unit_to_search" format="value"/>
+        </parameters>
+        <target>
+            <http endpoint="http://http-service/get_accesibility"/>
+        </target>
+    </query>
+
+    <action name="ReportEmptyResult">
+        <parameters/>
+        <failure_reasons/>
+        <target>
+            <frontend/>
+        </target>
+    </action>
+</service_interface>

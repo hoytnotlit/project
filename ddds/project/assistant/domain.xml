@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<domain name="AssistantDomain" is_super_domain="true">
+  <goal type="perform" action="top">
+    <plan>
+      <forget_all/>
+      <findout type="goal"/>
+    </plan>
+  </goal>
+
+  <goal type="resolve" question_type="wh_question" predicate="unit_contact">
+    <plan>
+      <findout type="wh_question" predicate="unit_to_search"/>
+      <findout type="wh_question" predicate="contact_type"/>
+      <invoke_service_query type="wh_question" predicate="unit_contact"/>
+      <if>
+        <condition>
+          <proposition predicate="unit_contact" value="empty"/>
+        </condition>
+        <then>
+          <invoke_service_action name="ReportEmptyResult" postconfirm="true"/>
+        </then>
+      </if>
+    </plan>
+  </goal>
+
+  
+  <goal type="resolve" question_type="wh_question" predicate="service_unit">
+    <plan>
+      <findout type="wh_question" predicate="service_to_search"/>
+      <findout type="wh_question" predicate="city_to_search"/> 
+      <findout type="wh_question" predicate="want_address"/> 
+      <bind type="wh_question" predicate="accessibility_to_search"/>
+      <invoke_service_query type="wh_question" predicate="service_unit"/>
+      <if>
+        <condition>
+          <proposition predicate="service_unit" value="empty"/>
+        </condition>
+        <then>
+          <invoke_service_action name="ReportEmptyResult" postconfirm="true"/>
+        </then>
+      </if>
+    </plan>
+  </goal>
+
+  <parameters predicate="service_unit">
+    <background predicate="service_to_search"/>
+    <background predicate="city_to_search"/>
+  </parameters>
+
+  <goal type="resolve" question_type="wh_question" predicate="unit_accessibility">
+    <plan>
+      <findout type="wh_question" predicate="unit_to_search"/>
+      <invoke_service_query type="wh_question" predicate="unit_accessibility"/>
+    </plan>
+  </goal>
+
+</domain>
